@@ -1,6 +1,7 @@
 *{
     margin: auto;
     padding: 0;
+    background-color:aliceblue;
 }
 
 .borad{
@@ -8,11 +9,12 @@
     justify-content: space-between;
     /* background-color: rgb(241, 245, 242); */
     height: 600px;
-    width: 1200px;
+    width: 960px;
     /* width: 1200px; */
     font-size: 0; /*remove the space between child div*/
     /* border:1px solid red; */
 }
+
 
 .col{
     display: flex;
@@ -40,8 +42,8 @@
     box-sizing: border-box;
     border:1px solid grey; */
     /* background-color:rgba(0, 0, 255, 0.443); */
-    height: 150px;
-    width: 100px;
+    height: 120px;
+    width: 80px;
     transition: 0ms;
 }
 
@@ -53,11 +55,80 @@
 }
 
 .control button{
-    font-size: 2em;
-    /* color: darkgray; */
+    position: relative;
+    font-size: 1.3em;
+    color: darkgray;
     padding: 10px;
     margin-left: 10px;
     margin-right: 10px;
     border: none;
     background-color: transparent;
 }
+
+.control button:hover{
+    color: black;
+}
+
+.control button[data-badge]::after{
+      position:absolute;
+      right:-8px;
+      top: -2px;
+      min-width:7px;
+      min-height:7px;
+      line-height:7px;
+      padding:5px;
+      color:#fff;
+      background-color:#bf1f1f;
+      font-size:10px;
+      border-radius:15px;
+      content:attr(data-badge);
+      border:solid 1px #c93a3a;
+}   
+
+
+.headline{
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    display: flex;
+    justify-content: space-between;
+    width: 960px;
+}
+
+.col-line{
+    /* background-color: aliceblue; */
+    box-sizing: border-box;
+    border:1px solid rgb(230, 230, 230);
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-around;
+    height: 100px;
+    width: 70px;
+}
+
+
+
+.hint {
+    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+  
+  @keyframes shake {
+    10%, 90% {
+      transform: rotate(2.5deg);/*translate3d(-1px, 0, 0);*/
+    }
+    
+    20%, 80% {
+      transform: rotate(5deg);/*translate3d(2px, 0, 0);*/
+    }
+  
+    30%, 50%, 70% {
+      transform: rotate(-10deg);/*translate3d(-4px, 0, 0);*/
+    }
+  
+    40%, 60% {
+      transform: rotate(10deg);/*translate3d(4px, 0, 0);*/
+    }
+  }

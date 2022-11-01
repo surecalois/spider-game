@@ -10,7 +10,18 @@
 </head>
 
 <body>
-    
+    <div class="headline">
+        <div class="col-line"></div>
+        <div class="col-line"></div>
+        <div class="col-line"></div>
+        <div class="col-line"></div>
+        <div class="col-line"></div>
+        <div class="col-line"></div>
+        <div class="col-line"></div>
+        <div class="col-line"></div>
+        <div class="col-line"></div>
+        <div class="col-line"></div>
+    </div>
     <div class="borad">
         <div class="col" id="col1"></div>
         <div class="col" id="col2"></div>
@@ -23,10 +34,15 @@
         <div class="col" id="col9"></div>
         <div class="col" id="col10"></div>
     </div>
-    <!-- <div class="control">
-        <button onclick="deal_cards()">Deal</button>
+    <div class="control">
+        <button onclick="new_game()" id="new">New</button>
+        <button data-badge="0" onclick="show_hint()" id="hint">Hint</button>
+        <button data-badge="5" onclick="deal_cards()" id="deal">Deal</button>
         <button onclick="undo_it()">Undo</button>
-    </div> -->
+        <button onclick="save()" id="save">Save</button>
+        <button onclick="load()" id="load">Load</button>
+        <input type="file" id="txtfiletoread" style="display:none;"></input>
+    </div>
     <script src="spider.js"></script>
 </body>
 
