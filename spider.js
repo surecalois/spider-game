@@ -26,7 +26,7 @@ var n_run =0;
 
 var hist_board =[];
 
-var game00 = [
+var game_four = [
     [8,1,false],[4,2,false],[12,0,false],[7,3,false],[5,0,false],[10,0,false],[8,3,false],[10,1,false],[1,2,false],[10,2,false],
     [12,2,false],[7,3,false],[6,3,false],[4,3,false],[9,0,false],[6,0,false],[9,3,false],[5,2,false],[8,0,false],[10,3,false],
     [3,0,false],[7,0,false],[2,1,false],[11,3,false],[11,1,false],[11,3,false],[13,2,false],[10,1,false],[4,0,false],[1,0,false],
@@ -43,6 +43,47 @@ var game00 = [
     [8, 2, false], [7, 2, false], [2, 3, false], [10, 0, false], [9, 0, false],
     [5, 3, false], [5, 0, false], [1, 3, false], [13, 2, false], [3, 3, false], [13, 3, false]
 ]
+
+var game_two = [
+    [8,2,false],[4,2,false],[12,3,false],[7,3,false],[5,3,false],[10,3,false],[8,3,false],[10,2,false],[1,2,false],[10,2,false],
+    [12,2,false],[7,3,false],[6,3,false],[4,3,false],[9,3,false],[6,3,false],[9,3,false],[5,2,false],[8,3,false],[10,3,false],
+    [3,3,false],[7,3,false],[2,2,false],[11,3,false],[11,2,false],[11,3,false],[13,2,false],[10,2,false],[4,3,false],[1,3,false],
+    [7,2,false],[2,2,false],[2,3,false],[1,2,false],[2,2,false],[4,3,false],[6,2,false],[1,3,false],[1,2,false],[7,2,false],
+    [1,3,false],[12,2,false],[11,2,false],[10,2,false],[8,3,false],[8,2,false],[8,2,false],[3,2,false],[7,3,false],[6,3,false],
+    [3,3,false],[11,3,false],[3,2,false],[5,2,false],[12,3,false],[3,3,false],
+    [2,2,false],[12,2,false],[4,2,false],[2,3,false],[11,3,false],
+    [12,3,false],[3,2,false],[5,2,false],[6,2,false],[5,2,false],
+    [9,3,false],[1,2,false],[7,2,false],[13,3,false],[4,2,false],[12,3,false],
+    [10,3,false],[3,2,false],[13,3,false],[6,2,false],[13,2,false],
+    [11,2,false],[9,2,false],[13,2,false],[8,3,false],[13,3,false],
+    [12,2,false],[6,2,false],[2,3,false],[9,2,false],[9,2,false],[9,2,false],
+    [4,3,false],[4,2,false],[6,3,false],[11,2,false],[5,3,false],
+    [8,2,false],[7,2,false],[2,3,false],[10,3,false],[9,3,false],
+    [5,3,false],[5,3,false],[1,3,false],[13,2,false],[3,3,false],[13,3,false]
+]
+
+
+var game_one = [
+    [8,3,false],[4,3,false],[12,3,false],[7,3,false],[5,3,false],[10,3,false],[8,3,false],[10,3,false],[1,3,false],[10,3,false],
+    [12,3,false],[7,3,false],[6,3,false],[4,3,false],[9,3,false],[6,3,false],[9,3,false],[5,3,false],[8,3,false],[10,3,false],
+    [3,3,false],[7,3,false],[2,3,false],[11,3,false],[11,3,false],[11,3,false],[13,3,false],[10,3,false],[4,3,false],[1,3,false],
+    [7,3,false],[2,3,false],[2,3,false],[1,3,false],[2,3,false],[4,3,false],[6,3,false],[1,3,false],[1,3,false],[7,3,false],
+    [1,3,false],[12,3,false],[11,3,false],[10,3,false],[8,3,false],[8,3,false],[8,3,false],[3,3,false],[7,3,false],[6,3,false],
+    [3,3, false], [11,3, false], [3,3, false], [5,3, false], [12,3, false], [3,3, false],
+    [2,3, false], [12,3, false], [4,3, false], [2,3, false], [11,3, false],
+    [12,3, false], [3,3, false], [5,3, false], [6,3, false], [5,3, false],
+    [9,3, false], [1,3, false], [7,3, false], [13,3, false], [4,3, false], [12,3, false],
+    [10,3, false], [3,3, false], [13,3, false], [6,3, false], [13,3, false],
+    [11,3, false], [9,3, false], [13,3, false], [8,3, false], [13,3, false],
+    [12,3, false], [6,3, false], [2,3, false], [9,3, false], [9,3, false], [9,3, false],
+    [4,3, false], [4,3, false], [6,3, false], [11,3, false], [5,3, false],
+    [8,3, false], [7,3, false], [2,3, false], [10,3, false], [9,3, false],
+    [5,3, false], [5,3, false], [1,3, false], [13,3, false], [3,3, false], [13,3, false]
+]
+
+
+
+var game00 = game_four;
 
 const cd_height = 120;
 const cd_width = 80;
@@ -81,6 +122,21 @@ function new_game(){
     document.getElementById("new").blur();
 }
 
+function new_game_one(){
+    game00 = game_one;
+    new_game();
+}
+
+function new_game_two(){
+    game00 = game_two;
+    new_game();
+}
+
+function new_game_four(){
+    game00 = game_four;
+    new_game();
+}
+
 document.onkeydown = function(event) {
     if (event.key === 'z' ||event.key === 'Z'|| event.key=='u'|| event.key=='U') {
         undo_it()
@@ -94,6 +150,19 @@ document.onkeydown = function(event) {
     if(event.key === 'H'||event.key === 'h'){
         show_hint()
     }
+
+    if(event.key === '1' & event.ctrlKey){
+        new_game_one()
+    }
+
+    if(event.key === '2' & event.ctrlKey){
+        new_game_two()
+    }
+
+    if(event.key === '4' & event.ctrlKey){
+        new_game_four()
+    }
+
     if(event.key === 'm'||event.key === 'M'){
         if(keep_moving){
             auto_move();
