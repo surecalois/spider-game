@@ -237,7 +237,7 @@ function board_from_html() {
 }
 
 //var card_img = 'https://raw.githubusercontent.com/GNOME/aisleriot/master/cards/gnomangelo.svg';
- var card_img = 'gnomangelo.svg';
+var card_img = 'gnomangelo.svg';
 /*[11,3,t] 11-> Q 3-> heart true -> visuable*/
 function make_card(card_data, k) {
     var it;
@@ -289,17 +289,6 @@ function board_to_html() {
         // }
         update_column(k);
     })
-    // columns.forEach((it, ck) => {
-    //     var col_cards = Array.from(it.children)
-
-    //     const col_n = board[ck].length
-    //     const vis_n = board[ck].filter(it => it[2]).length
-    //     col_cards.forEach((iit, k) => {
-    //         dragElement(iit);
-    //         iit.style.top = get_top(col_n, vis_n, k) + "px";
-    //     })
-    // })
-
 }
 
 /*
@@ -317,7 +306,8 @@ function update_column(k) {
     const col_n = board[k].length
     const vis_n = board[k].filter(it => it[2]).length
     col_cards.forEach((iit, k) => {
-        dragElement(iit);
+        //dragElement(iit);
+        clickElement(iit);
         iit.style.top = get_top(col_n, vis_n, k) + "px";
         iit.style.zIndex = 100+k;
     })
@@ -734,6 +724,7 @@ function dragElement(elmnt) {
     var c_cards;
     elmnt.onmousedown = dragMouseDown;
 
+    //this means double click will move the card(s) to the first/best connection.
     function semi_auto_move(){
         if(ok_to_pickup(from_j,row_i)){
             var entry = all_movable.findIndex(it => JSON.stringify(it[0])==elmnt.dataset.sth
@@ -758,7 +749,7 @@ function dragElement(elmnt) {
     }
 
     function dragMouseDown(e) {
-        e = e || window.event;
+        e = e || window.Event;
         e.preventDefault();
 
         var rect = elmnt.getClientRects()[0]
@@ -775,9 +766,6 @@ function dragElement(elmnt) {
             if(to_k!=-1){
                 // console.log("automove:"+from_j+"," +p+", "+row_i)
                 move_to_col_k(from_j, to_k, row_i)
-                // update_column(p)
-                // update_column(from_j)
-                //closeDragElement(e,p);
                 return 0;
             }
             //timestamp = 0;
@@ -810,7 +798,7 @@ function dragElement(elmnt) {
     }
 
     function elementDrag(e) {
-        e = e || window.event;
+        e = e || window.Event;
         e.preventDefault();
         // calculate the new cursor position:
         pos1 = pos3 - e.clientX;
@@ -855,9 +843,180 @@ function dragElement(elmnt) {
         // stop moving when mouse button is released:
         document.onmouseup = null;
         document.onmousemove = null;
-        //dragElement(elmnt)
     }
 
 }
 
+
+
 window.onload = new_game;
+
+var clicked_elment = undefined
+var clicked_from_j = undefined
+var clicked_row_i = undefined
+
+function clickElement(elmnt) {
+    //var elmnt = e.target;
+    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    var mx=0,my=0;
+    var from_j;
+    var row_i;
+    var c_cards;
+    elmnt.onmousedown = dragMouseDown;
+
+
+    function semi_auto_move(){
+        if(ok_to_pickup(from_j,row_i)){
+            var entry = all_movable.findIndex(it => JSON.stringify(it[0])==elmnt.dataset.sth
+            && from_j == it[1]
+           )
+           
+           if(entry !=-1){
+               var mv = all_movable[entry];
+               /**the card, from_column,to_column,color_match,from_row */
+               from_j=mv[1];
+               row_i = board[from_j].length-1- mv[4]; //row_i is div, mv[4] is the borad
+               //console.log(mv)
+               return mv[2];
+           }else{
+               var empty=board.map(it=>it.length).indexOf(0);
+               return empty;
+           }
+        }else{
+
+            return -1;
+        }
+    }
+
+    function dragMouseDown(e) {
+        e = e || window.Event;
+        e.preventDefault();
+        e.stopPropagation();
+        if(clicked_elment != undefined){
+            console.log("should close now")
+            closeDragElement(e);
+        }
+
+        var rect = elmnt.getClientRects()[0]
+        var mid = rect.left + rect.width / 2;
+        from_j = which_column(mid);
+
+        var etime = e.timeStamp
+        var delta_t = etime - timestamp;
+        timestamp = etime;
+        //console.log(delta_t+"  ,  " + timestamp)
+        if(delta_t < 300){
+            // console.log("like double click")
+            var to_k = semi_auto_move();
+            if(to_k!=-1){
+                // console.log("automove:"+from_j+"," +p+", "+row_i)
+                move_to_col_k(from_j, to_k, row_i)
+                return 0;
+            }
+            //timestamp = 0;
+        }
+        // get the mouse cursor position at startup:
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        mx = e.clientX - elmnt.offsetLeft;
+        my = e.clientY - elmnt.offsetTop;
+
+        var rect = elmnt.getClientRects()[0]
+        var mid = rect.left + rect.width / 2;
+        from_j = which_column(mid);
+        row_i = Array.from(columns[from_j].children).indexOf(elmnt) //.findIndex((it) => it == elmnt)
+        //console.log(row_i)
+        if (!ok_to_pickup(from_j, row_i)) {
+            document.onmouseup = null;
+            document.onmousemove = null;
+            return 0;
+        }else{
+            clicked_elment = elmnt
+            clicked_from_j = from_j
+            clicked_row_i = row_i
+            console.log("something is cliked! "+from_j+":"+row_i)
+        }
+
+        c_cards = Array.from(columns[from_j].children).slice(row_i)
+        c_cards.forEach((it, z) => {
+            it.style.zIndex = 1000 + z;
+        })
+
+        //document.onmousedown = closeDragElement;
+        // call a function whenever the cursor moves:
+    }
+
+    function closeDragElement() {
+        // set the element's new position:
+        var rect = elmnt.getClientRects()[0]
+        var mid = rect.left + rect.width / 2;
+        var to_k = which_column(mid);
+
+        from_j = clicked_from_j
+        row_i = clicked_row_i
+
+        c_cards = Array.from(columns[from_j].children).slice(row_i)
+        c_cards.forEach((it, z) => {
+            it.style.zIndex = 1000 + z;
+        })
+
+        if (from_j != to_k) {
+            move_to_col_k(from_j, to_k,row_i)
+        }else{
+            c_cards.forEach((it, z) => {
+                it.style.zIndex = 100 + z+row_i;
+            }) 
+        }
+
+        c_cards.forEach((it,k) => {
+            it.style.transform = "none";
+        })
+
+        // stop moving when mouse button is released:
+
+        clicked_elment = undefined
+        clicked_from_j = undefined
+        clicked_row_i = undefined
+    }
+
+}
+
+
+var click_columns = document.getElementsByClassName("col");
+[...click_columns].forEach(it => it.onmousedown = function(){
+    var to_k = Number(this.id.replace("col",""))-1
+    console.log(this.id + ":" +to_k)
+    
+    if(clicked_elment != undefined){
+        var from_j = clicked_from_j
+        var row_i = clicked_row_i
+    
+        var c_cards = Array.from(columns[from_j].children).slice(row_i)
+        c_cards.forEach((it, z) => {
+            it.style.zIndex = 1000 + z;
+        })
+
+        console.log("try to move:"+from_j+"->"+to_k)
+
+        if (from_j != to_k) {
+            console.log("make the move:"+from_j+"->"+to_k)
+
+            move_to_col_k(from_j, to_k,row_i)
+            clicked_elment = undefined
+            clicked_from_j = undefined
+            clicked_row_i = undefined
+        }else{
+            c_cards.forEach((it, z) => {
+                it.style.zIndex = 100 + z+row_i;
+            }) 
+        }
+    
+        c_cards.forEach((it,k) => {
+            it.style.transform = "none";
+        })
+    
+    
+
+    }
+    
+})

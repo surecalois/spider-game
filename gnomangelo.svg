@@ -1323,7 +1323,7 @@
     <use transform="translate(0,945)" id="use20217" x="0" y="0" width="2632.5" height="1575" xlink:href="#path22603"/>
     <use transform="translate(0,945)" id="use20256" x="0" y="0" width="2632.5" height="1575" xlink:href="#use25665"/>
     <text xml:space="preserve" style="font-size:6.27300024px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Serif" x="70.113495" y="1198.7043" id="text3626">
-      <tspan sodipodi:role="line" id="tspan3628" x="70.113495" y="1198.7043">© 2008 GNOME Games</tspan>
+      <!-- <tspan sodipodi:role="line" id="tspan3628" x="70.113495" y="1198.7043">© 2008 GNOME Games</tspan> -->
     </text>
   </g>
   <g id="spade_2">
