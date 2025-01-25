@@ -404,6 +404,8 @@ function move_to_col_k(from_j, k, row_i) {
         swap_cards(from_j,k,row_i)
         things_to_clear(k);
         hint();
+        var flag = board.map(it => it.length).filter(it => it !=0).length; 
+        if(flag == 0) save();
     }
 }
 
